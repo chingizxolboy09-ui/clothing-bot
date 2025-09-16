@@ -51,4 +51,22 @@ def products(message):
     bot.send_message(message.chat.id, "\n".join(items))
 
 # Botni ishga tushuramiz
+
 bot.polling()
+from flask import Flask
+import threading, os
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Bot is running!"
+
+def run_bot():
+    bot.polling(none_stop=True)
+
+threading.Thread(target=run_bot).start()
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
